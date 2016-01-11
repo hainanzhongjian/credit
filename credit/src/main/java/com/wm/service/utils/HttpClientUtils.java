@@ -21,20 +21,6 @@ import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 
-/**
- * 测试httpclient 4.0 1. 重新设计了HttpClient 4.0 API架构，彻底从内部解决了所有 HttpClient 3.x
- * 已知的架构缺陷代码。 2. HttpClient 4.0 提供了更简洁，更灵活，更明确的API。 3. HttpClient 4.0
- * 引入了很多模块化的结构。 4. HttpClient
- * 4.0性能方面得到了不小的提升，包括更少的内存使用，通过使用HttpCore模块更高效完成HTTP传输。 5. 通过使用 协议拦截器(protocol
- * interceptors), HttpClient 4.0实现了 交叉HTTP（cross-cutting HTTP protocol） 协议 6.
- * HttpClient 4.0增强了对连接的管理，更好的处理持久化连接，同时HttpClient 4.0还支持连接状态 7. HttpClient
- * 4.0增加了插件式（可插拔的）的 重定向（redirect） 和 验证（authentication）处理。 8. HttpClient
- * 4.0支持通过代理发送请求，或者通过一组代理发送请求。 9. 更灵活的SSL context 自定义功能在HttpClient 4.0中得以实现。 10.
- * HttpClient 4.0减少了在省城HTTP请求 和 解析HTTP响应 过程中的垃圾信息。 11. HttpClient团队鼓励所有的项目升级成
- * HttpClient 4.0
- * 
- * @author mx.li
- */
 public class HttpClientUtils {
 
     private HttpClient client;
@@ -62,7 +48,6 @@ public class HttpClientUtils {
             se.setContentEncoding("utf-8");
             se.setContentType("application/json");
             postMethod.setEntity(se);
-            // HttpClient client = new DefaultHttpClient();
             response = client.execute(postMethod);
             result = EntityUtils.toString(response.getEntity(), "utf-8");
 
@@ -78,7 +63,7 @@ public class HttpClientUtils {
         String result = null;
         try {
             HttpPost post = new HttpPost(this.url.toString());
-            // modified by 庞焱鸣：由抛异常改为catch，防止控制台输出连接失败信息
+            // 由抛异常改为catch，防止控制台输出连接失败信息
             post.setEntity(new UrlEncodedFormEntity(params, HTTP.UTF_8));
             result = getRespone(post);
         } catch (Exception e) {
@@ -117,7 +102,6 @@ public class HttpClientUtils {
 
                 count++;
             }
-            System.out.println(this.url.toString());
             HttpGet get = new HttpGet(this.url.toString());
             result = getRespone(get);
         } finally {

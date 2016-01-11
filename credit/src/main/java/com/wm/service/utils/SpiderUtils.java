@@ -4,12 +4,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLConnection;
-import java.util.List;
-import java.util.Map;
 
 import org.junit.Test;
 
@@ -20,40 +17,54 @@ import org.junit.Test;
  */
 public class SpiderUtils {
 
-	URLConnection conn = null;
-	
-	public void spiderData(String urlStr){
-		try {
-			URL url = new URL(urlStr);
-			conn = url.openConnection();
-			conn.setDoInput(true);
-			conn.connect();
-//			conn.setDoOutput(true);
-			InputStream in = conn.getInputStream();
-			InputStreamReader inReader = new InputStreamReader(in);
-			BufferedReader bufferReader = new BufferedReader(inReader);
-			char[] cArray = new char[100];
-			while (bufferReader.read() == -1) {
-				bufferReader.read(cArray);
-			}
-			in.close();
-			inReader.close();
-			bufferReader.close();
-			String ss = new String(cArray);
-			
-			System.out.println(ss);
-//			OutputStream out = conn.getOutputStream();
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally{
-			// 关闭连接
-		}
-	}
-	
-	@Test
-	public void test(){
-		spiderData("http://www.iqianjin.com/");
-	}
+    // URLConnection conn = null;
+    HttpURLConnection conn = null;
+
+    public void spiderData(String urlStr) {
+        try {
+            URL url = new URL(urlStr);
+            // conn = url.openConnection();
+            conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestProperty("CONTENT_TYPE", "application/octet-stream");
+            conn.setUseCaches(false);
+            conn.setDoInput(true);
+            conn.setDoOutput(true);
+            InputStream in = conn.getInputStream();
+            InputStreamReader inReader = new InputStreamReader(in);
+            BufferedReader bufferReader = new BufferedReader(inReader);
+            char[] cArray = new char[100];
+            while (bufferReader.read() == -1) {
+                bufferReader.read(cArray);
+            }
+            in.close();
+            inReader.close();
+            bufferReader.close();
+            String ss = new String(cArray);
+
+            System.out.println(ss);
+            // OutputStream out = conn.getOutputStream();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            // 关闭连接
+        }
+    }
+
+    @Test
+    public void test() {
+        spiderData("http://www.iqianjin.com/");
+    }
+
+    @Test
+    public void test1() {
+        HttpClientUtils http = new HttpClientUtils("http://www.iqianjin.com/");
+        try {
+            String str = http.doPost();
+            System.out.println(str);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
