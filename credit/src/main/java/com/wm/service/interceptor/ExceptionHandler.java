@@ -22,7 +22,6 @@ public class ExceptionHandler implements HandlerExceptionResolver {
     /*
      * 第4个参数表示对哪种类型的异常进行处理，如果想同时对多种异常进行处理，可以把它换成一个异常数组
      */
-    @Override
     public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response, Object handler,
             Exception ex) {
         // 1：定义：默认的错误页面
