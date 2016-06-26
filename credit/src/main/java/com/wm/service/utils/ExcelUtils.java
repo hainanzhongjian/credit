@@ -37,10 +37,9 @@ import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 /**
- * 生成excel工具类
- * 
+ * @note 生成excel工具类
  * @author wangmeng
- * @time 2015年1月28日下午3:49:03
+ * @date 2016年6月26日 下午3:55:43
  */
 public class ExcelUtils {
     private static DateFormat dateformate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -58,7 +57,6 @@ public class ExcelUtils {
      * @return
      * @throws Exception
      */
-    @SuppressWarnings("rawtypes")
     public static Workbook createFile(Workbook wb, Map<String, String> titleMp, List<?> recordLt, String sheetName)
             throws Exception { // NOSONAR
         CreationHelper createHelper = wb.getCreationHelper();
@@ -68,17 +66,6 @@ public class ExcelUtils {
 
         // 设置标题单元格样式
         CellStyle titlestyle = wb.createCellStyle();
-        // titlestyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-        // titlestyle.setFillForegroundColor(HSSFColor.BLUE_GREY.index);
-        // titlestyle.setBorderBottom(CellStyle.BORDER_THIN);
-        // titlestyle.setBorderTop(CellStyle.BORDER_THIN);
-        // titlestyle.setBorderLeft(CellStyle.BORDER_THIN);
-        // titlestyle.setBorderRight(CellStyle.BORDER_THIN);
-        // titlestyle.setAlignment(CellStyle.ALIGN_CENTER);
-
-        // 生成行对象
-        // Row row = sheet1.createRow((short) 0);
-        // 该处支持int类型2^31 = 2 147 483 648-1行数据 导入excel时候 excel本身是没有数据量大小限制的
         // 读写excel很耗内存，顾需要将内存调大
         Row row = sheet1.createRow((int) 0);
         // 生成标题
@@ -139,7 +126,6 @@ public class ExcelUtils {
      * @return
      * @throws Exception
      */
-    @SuppressWarnings("rawtypes")
     public static Workbook createFile2(Workbook wb, Map<String, String> titleMp, List<?> recordLt, String sheetName)
             throws Exception { // NOSONAR
         CreationHelper createHelper = wb.getCreationHelper();
@@ -240,7 +226,7 @@ public class ExcelUtils {
                 value = dateformate.format(value);
             }
             if (value instanceof Double) {
-                value = NumberUtil.formatNumber(Double.parseDouble(value.toString()));
+                value = NumberUtils.formatNumber(Double.parseDouble(value.toString()));
             }
             return value.toString();
         }
@@ -259,7 +245,7 @@ public class ExcelUtils {
                 value = dateformate2.format(value);
             }
             if (value instanceof Double) {
-                value = NumberUtil.formatNumber(Double.parseDouble(value.toString()));
+                value = NumberUtils.formatNumber(Double.parseDouble(value.toString()));
             }
             return value.toString();
         }
